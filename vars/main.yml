@@ -1,0 +1,4 @@
+---
+# vars file for my-new-role2
+cmake_url: "https://cmake.org/files/v{{ cmake_version }}/cmake-{{ cmake_version }}.{{ cmake_minor_version }}-{{ cmake_pkg_type }}.tar.gz"
+cmake_modify_path: true
