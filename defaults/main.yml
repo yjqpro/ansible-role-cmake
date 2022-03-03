@@ -1,0 +1,9 @@
+---
+# defaults file for cmake
+cmake_pkg_state: false
+cmake_pkg_type: Linux-x86_64
+cmake_version: 3.19
+cmake_minor_version: 1
+cmake_temp: /tmp/cmake-{{ cmake_version }}.{{ cmake_minor_version }}-{{ cmake_pkg_type }}.sh
+cmake_install_dir: '/usr/local'
+cmake_modify_path: True

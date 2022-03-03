@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include yjqpro.cmake"
+      include_role:
+        name: "yjqpro.cmake"

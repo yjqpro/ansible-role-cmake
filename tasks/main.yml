@@ -1,0 +1,38 @@
+---
+# tasks file for cmake
+
+- name: Check to See if CMake is already installed
+  stat: path={{ cmake_install_dir }}/bin/cmake
+  register: bin_cmake
+  changed_when: bin_cmake.stat.exists == False
+
+- name: Debug cmake_url
+  ansible.builtin.debug: var=cmake_url
+
+- name: Download CMake
+  get_url: url={{ cmake_url }} dest={{ cmake_temp }} validate_certs=False
+  register: cmake_downloaded
+  when: not bin_cmake.stat.exists
+
+- debug:
+    var: cmake_downloaded
+
+#- name: Install CMake
+#unarchive: copy=no src={{cmake_temp}} dest={{ cmake_install_dir }}
+#become: True
+## when: (bin_cmake.stat.exists == False) and  (cmake_downloaded | success)
+- name: Ensure sh is executable
+  ansible.builtin.file:
+    path: '{{ cmake_temp }}'
+    state: file
+    mode: a+x
+
+- name: Install CMake
+  command:
+    argv:
+      - '{{ cmake_temp }}'
+      - '--skip-license'
+      - '--exclude-subdir'
+      - '--prefix=/usr/local'
+  become: True
+  when: not bin_cmake.stat.exists and  (cmake_downloaded.status_code == 200)
