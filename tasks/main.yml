@@ -14,18 +14,12 @@
   register: cmake_downloaded
   when: not bin_cmake.stat.exists
 
-- debug:
-    var: cmake_downloaded
-
-#- name: Install CMake
-#unarchive: copy=no src={{cmake_temp}} dest={{ cmake_install_dir }}
-#become: True
-## when: (bin_cmake.stat.exists == False) and  (cmake_downloaded | success)
 - name: Ensure sh is executable
   ansible.builtin.file:
     path: '{{ cmake_temp }}'
     state: file
     mode: a+x
+  when: not bin_cmake.stat.exists
 
 - name: Install CMake
   command:
